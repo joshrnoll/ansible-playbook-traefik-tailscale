@@ -1,5 +1,7 @@
 # ansible-playbook-traefik-tailscale
 
+![](/static/traefik-tailscale.png)
+
 ## An Ansible Playbook for Deploying Traefik and traefik-kop over Tailscale
 
 [Traefik](https://traefik.io) is a highly flexible application proxy with significant of capabilities. However, this comes at the cost of being very complex. A common application of Traefik, especially in a self-hosted/homelab setup, is to use the [Docker provider](https://doc.traefik.io/traefik/providers/docker/). This provider allows you to automate the proxy configuration (requesting a wildcard certificate for HTTPS, configuring the port and protocol for the proxy host, etc.) through [Docker labels](https://docs.docker.com/engine/manage-resources/labels/). Unfortunately, this capability is limited to containers running on the same host as Traefik. 
