@@ -1,0 +1,31 @@
+---
+- name: Deploy nginx for testing
+  hosts: nginx
+  vars:
+    service_name: nginx
+
+  tasks:
+    - name: Include variables
+      ansible.builtin.include_vars: secrets.yml
+
+    - name: Deploy nginx
+      ansible.builtin.include_role:
+        name: joshrnoll.homelab.tailscale_container
+      vars:
+        tailscale_container_tailnet_name: "{{ tailnet_name }}"
+        tailscale_container_oauth_client_secret: "{{ tailscale_containers_oauth_client['secret'] }}"
+        tailscale_container_service_name: nginx
+        tailscale_container_image: nginx
+        tailscale_container_tag: latest
+        tailscale_container_no_serve: true
+        tailscale_container_userspace_networking: "false"
+        tailscale_container_labels:
+          traefik.enable: "true"
+          traefik.http.routers.nginx.rule: "Host(`nginx.{{ domain_name }}`)"
+          traefik.http.routers.nginx.entrypoints: "https"
+          traefik.http.routers.nginx.tls: "true"
+          traefik.http.routers.nginx.tls.certresolver: "cloudflare"
+          traefik.http.services.nginx.loadbalancer.server.scheme: "http"
+          traefik.http.services.nginx.loadbalancer.server.port: "80"
+          kop.bind.ip: "{{ tailscale_container_ip_address }}"
+...

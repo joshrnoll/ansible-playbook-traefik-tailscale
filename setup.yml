@@ -1,0 +1,29 @@
+- name: Run setup tasks
+  hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+    - name: include variables from secrets file
+      ansible.builtin.include_vars: secrets.yml
+
+    - name: Ensure host_vars directory exists
+      ansible.builtin.file:
+        path: "{{ playbook_dir}}/host_vars"
+        state: directory
+    
+    - name: Build host vars for traefik and nginx
+      ansible.builtin.template:
+        src: templates/host_vars_file.j2
+        dest: host_vars/{{ item.hostname }}.yml
+      loop: "{{ traefik_and_nginx_hosts }}"
+
+    - name: Build host vars for additional docker hosts
+      ansible.builtin.template:
+        src: templates/host_vars_file.j2
+        dest: host_vars/{{ item.hostname }}.yml
+      loop: "{{ additional_docker_hosts }}"
+
+    - name: Build hosts.yml file
+      ansible.builtin.template:
+        src: templates/hosts.j2
+        dest: "{{ playbook_dir }}/hosts.yml"

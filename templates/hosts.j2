@@ -1,0 +1,21 @@
+traefik:
+  hosts:
+{% for item in traefik_and_nginx_hosts %}
+{% if item.name == 'traefik_host' %}
+    {{ item.hostname }}:
+{% endif %}
+{% endfor %}
+
+nginx:
+  hosts:
+{% for item in traefik_and_nginx_hosts %}
+{% if item.name == 'nginx_host' %}
+    {{ item.hostname }}:
+{% endif %}
+{% endfor %}
+
+traefik_kop:
+  hosts:
+{% for item in additional_docker_hosts %}
+    {{ item.hostname }}:
+{% endfor %}

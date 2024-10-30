@@ -1,0 +1,6 @@
+- name: Deploy Traefik, traefik-kop and nginx
+  hosts: all
+
+- import_playbook: deploy-traefik.yml
+- import_playbook: deploy-traefik-kop.yml
+- import_playbook: deploy-nginx.yml
