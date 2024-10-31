@@ -56,6 +56,12 @@ Then, run the script with:
 
 ```./deploy.sh```
 
+### Testing
+
+If the playbooks run successfully, you should be able to reach the following in a browser:
+- **https://traefik.mydomain.com** --> Traefik dashboard
+- **https://nginx.mydomain.com** --> nginx (container running on another host)
+
 ### Troubleshooting
 
 Common issues and potential solutions:
